@@ -1,0 +1,27 @@
+{
+  "name": "lezer-glsl",
+  "version": "0.1.0",
+  "description": "lezer-based glsl grammar",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@lezer/generator": "^1.0.0",
+    "mocha": "^10.2.0",
+    "rollup": "^4.40.0"
+  },
+  "dependencies": {
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.0.0"
+  },
+  "scripts": {
+    "build": "npm run prepare && rollup -c",
+    "prepare": "lezer-generator src/glsl.grammar -o src/parser",
+    "test": "mocha test.js"
+  }
+}

@@ -1,0 +1,174 @@
+# Switch Statement
+
+switch(a) {
+  case 1: int b = 2; break;
+  case 2:
+  case 3: d = 2; break;
+  case 3+4: return 4; break;
+  default: fnCall();
+}
+
+==>
+
+Program(
+  SwitchStatement(
+    switch, 
+    ConditionClause(Identifier), 
+    CompoundStatement(
+      CaseStatement(
+        case,
+        Number,
+        Declaration(PrimitiveType, InitDeclarator( Identifier, Number)),
+        BreakStatement(break)
+      ),
+      CaseStatement(
+        case, 
+        Number
+      ),
+      CaseStatement(
+        case, 
+        Number,
+        ExpressionStatement(
+          AssignmentExpression(Identifier, Number),
+        )
+        BreakStatement(break)
+      ),
+      CaseStatement(
+        case,
+        BinaryExpression(
+          Number, ArithOp, Number
+        ),
+        ReturnStatement(return, Number),
+        BreakStatement(break)
+      )
+      CaseStatement(
+        default,
+        ExpressionStatement(
+          CallExpression(Identifier, ArgumentList)
+        )
+      )
+    )
+  )
+)
+
+# Assignment
+
+a = b;
+
+==>
+
+Program(
+  ExpressionStatement(
+    AssignmentExpression(Identifier, Identifier)
+  )
+)
+
+
+# If statements with assignment and comma separated conditions
+
+void main() {
+  if (a = 2, a < 2, b.c.d == 3) { }
+}
+
+==>
+
+Program(
+  FunctionDefinition(
+    PrimitiveType,
+    FunctionDeclarator(
+      Identifier,
+      ParameterList),
+    CompoundStatement(
+      IfStatement(
+        if, 
+        ConditionClause(
+          CommaExpression(
+            AssignmentExpression(Identifier, Number),
+            CommaExpression(
+              BinaryExpression(Identifier, CompareOp, Number),
+              BinaryExpression(FieldExpression(FieldExpression(Identifier,FieldIdentifier), FieldIdentifier), CompareOp, Number),
+            )
+          )
+        ),
+        CompoundStatement
+      )
+    )
+  )
+)
+
+
+
+# Do / While With Assignment And CommaExpression
+
+do {} while ( a = fnCall(), b < 2, c.d.e == 2);
+
+==>
+
+Program(
+  DoStatement(
+    do,
+    CompoundStatement,
+    while,
+    ParenthesizedExpression(
+      CommaExpression(
+        AssignmentExpression(
+            Identifier,
+            CallExpression(Identifier, ArgumentList)
+        ),
+        CommaExpression(
+          BinaryExpression(Identifier, CompareOp, Number),
+          BinaryExpression(FieldExpression(FieldExpression(Identifier, FieldIdentifier), FieldIdentifier), CompareOp, Number)
+        )
+      )
+    )
+  )
+)
+
+
+# While With Declaration And CommaExpression
+
+while (bool c = false, a = 2, b < 23, a.b.c == 3) {}
+
+==>
+
+Program(
+  WhileStatement(
+    while,
+    ConditionClause(
+      Declaration(PrimitiveType, InitDeclarator(Identifier, false)),
+      CommaExpression(
+        AssignmentExpression(Identifier, Number),
+        CommaExpression(
+          BinaryExpression(Identifier, CompareOp, Number),
+          BinaryExpression(
+            FieldExpression(FieldExpression(Identifier, FieldIdentifier), FieldIdentifier), CompareOp, Number
+          )
+        )
+      )
+    ),
+    CompoundStatement
+  )
+)
+
+
+# For Statement
+
+for(int a = 0, b = 2; a < 2, b < 3; a++, --b) {}
+
+==>
+
+Program(
+  ForStatement(
+    for,
+    Declaration(PrimitiveType, InitDeclarator(Identifier, Number), InitDeclarator(Identifier, Number)),
+    CommaExpression(
+      BinaryExpression(Identifier, CompareOp, Number),
+      BinaryExpression(Identifier, CompareOp, Number)
+    ),
+    CommaExpression(
+      UpdateExpression(Identifier, UpdateOp),
+      UpdateExpression(UpdateOp, Identifier)
+    ),
+    CompoundStatement
+  )
+)

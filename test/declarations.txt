@@ -1,0 +1,355 @@
+# Only Variable Name
+
+int a;
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType, Identifier
+  )
+)
+
+# Empty Declaration
+
+int;
+
+==>
+
+Program(
+  PrimitiveType
+)
+
+
+# Multiple Declarations in one Line
+
+int a, b;
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType, Identifier, Identifier
+  )
+)
+
+
+# Init Declaration
+
+int a = 2;
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType,
+    InitDeclarator(
+      Identifier,
+      Number
+    )
+  )
+)
+
+
+# Consecutive Init Declaration
+
+int a = 2, b = 3;
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType,
+    InitDeclarator(
+      Identifier,
+      Number
+    ),
+    InitDeclarator(
+      Identifier,
+      Number
+    )
+  )
+)
+
+
+# Qualifier In Declaration
+
+uniform in const vec2 a;
+
+==>
+
+Program(
+  Declaration(
+    uniform, in, const, PrimitiveType, Identifier
+  )
+)
+
+
+# InitDeclarator With Constructor
+
+vec2 b = vec2(1,2);
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType, 
+    InitDeclarator(
+      Identifier, 
+      CallExpression(
+        PrimitiveType,
+        ArgumentList(
+            Number, Number
+        )
+      )
+    )
+  )
+)
+
+
+# InitDeclaration With Nested Constructors
+
+AB c = CD(1, d, vec3(1,2,3));
+
+==>
+
+Program(
+  Declaration(
+    TypeIdentifier, 
+    InitDeclarator(
+      Identifier, 
+      CallExpression(
+        Identifier,
+        ArgumentList(
+          Number, 
+          Identifier, 
+          CallExpression(PrimitiveType,
+            ArgumentList(Number, Number, Number)
+          )
+        )
+      )
+    )
+  )
+)
+
+
+# Assignment Declaration
+
+vec3 c = d;
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType,
+    InitDeclarator(
+      Identifier, Identifier
+    )
+  )
+)
+
+
+# Array Declaration
+
+int[] a = int[](1,2,3);
+
+==>
+
+Program(
+  Declaration(
+    ArraySpecifier(
+      PrimitiveType
+    ),
+    InitDeclarator(
+      Identifier,
+      CallExpression(
+        ArraySpecifier(
+          PrimitiveType
+        ),
+        ArgumentList(
+          Number, Number, Number
+        )
+      )
+    )
+  )
+)
+
+# Nested Array Declaration
+
+int[][][] a;
+
+==>
+
+Program(
+  Declaration(
+    ArraySpecifier(
+      ArraySpecifier(
+        ArraySpecifier(PrimitiveType)
+      )
+    ), 
+  Identifier
+  )
+)
+
+
+# Array Declaration With Type Identifier
+
+AB[] a = AB[](1,2,3);
+
+==>
+
+Program(
+  Declaration(
+    ArraySpecifier(
+      TypeIdentifier
+    ),
+    InitDeclarator(
+      Identifier,
+      CallExpression(
+        ArraySpecifier(
+          TypeIdentifier
+        ),
+        ArgumentList(
+          Number, Number, Number
+        )
+      )
+    )
+  )
+)
+
+
+# Alternative Array Declaration
+
+int a[] = AB[](1,2,3);
+
+==>
+
+Program(
+  Declaration(
+    PrimitiveType,
+    InitDeclarator(
+      ArrayDeclarator(
+        Identifier
+      ),
+      CallExpression(
+        ArraySpecifier(
+          TypeIdentifier
+        ),
+        ArgumentList(
+          Number, Number, Number
+        )
+      )
+    )
+  )
+)
+
+
+# Struct Definition
+
+struct AB {int b; float c;};
+
+==>
+
+Program(
+  StructSpecifier(
+    struct,
+    TypeIdentifier,
+    StructDeclarationList(
+      FieldDeclaration(
+        PrimitiveType, Identifier
+      )
+      FieldDeclaration(
+        PrimitiveType, Identifier
+      )
+    )
+  )
+)
+
+
+# Anonymous Struct Definition
+
+struct {int a;};
+
+==>
+
+Program(
+  StructSpecifier(
+    struct,
+    StructDeclarationList(
+      FieldDeclaration(
+        PrimitiveType, Identifier
+      )
+    )
+  )
+)
+
+
+# Struct Declaration
+
+struct AB {int a;} varName;
+
+==>
+
+Program(
+  Declaration(
+    StructSpecifier(
+      struct, 
+      TypeIdentifier,
+      StructDeclarationList(
+        FieldDeclaration(
+          PrimitiveType Identifier
+        )
+      )
+    ),
+    Identifier
+  )
+)
+
+
+# Nested Struct Definition With Inline Struct Definition
+
+struct AB {
+  struct CD {EF a;} b;
+};
+
+==>
+
+Program(
+  StructSpecifier(
+    struct, 
+    TypeIdentifier,
+    StructDeclarationList(
+      FieldDeclaration(
+        StructSpecifier(
+          struct, TypeIdentifier,
+          StructDeclarationList(
+            FieldDeclaration(
+              TypeIdentifier, Identifier
+            )
+          )
+        ),
+        Identifier
+      )
+    )
+  )
+)
+
+
+# Struct Definition With Qualifier
+
+struct AB {uniform const smooth in int b;};
+
+==> 
+
+Program(
+  StructSpecifier(
+    struct, TypeIdentifier,
+    StructDeclarationList(
+      FieldDeclaration(
+        uniform, const, smooth, in, PrimitiveType, Identifier
+      )
+    )
+  )
+)
+
+

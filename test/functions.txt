@@ -1,0 +1,115 @@
+# Function Definition With Body
+
+int myFunc(float b, AB c) {
+  callExp(1, e);
+  return 2;
+}
+
+==>
+
+Program(
+  FunctionDefinition(
+    PrimitiveType,
+    FunctionDeclarator(
+      Identifier,
+      ParameterList(
+        ParameterDeclaration(
+          PrimitiveType, Identifier
+        ),
+        ParameterDeclaration(
+          TypeIdentifier, Identifier
+        )
+      ) 
+    ),
+    CompoundStatement(
+      ExpressionStatement(
+        CallExpression(Identifier, ArgumentList(Number, Identifier)),
+      )
+      ReturnStatement(return, Number)
+    )
+  )
+)
+
+
+# Inline Struct definitions
+
+struct{int a;} myFunc(struct {int b;} c) {
+  return AB(2);
+}
+
+==>
+
+Program(
+  FunctionDefinition(
+    StructSpecifier(
+      struct,
+      StructDeclarationList(
+        FieldDeclaration(PrimitiveType, Identifier)
+      )
+    ),
+    FunctionDeclarator(
+      Identifier,
+      ParameterList(
+        ParameterDeclaration(
+          StructSpecifier(
+            struct,
+            StructDeclarationList(
+              FieldDeclaration(PrimitiveType, Identifier)
+            )
+          ),
+          Identifier
+        )
+      )
+    ),
+    CompoundStatement(
+      ReturnStatement(
+        return,
+        CallExpression(
+          Identifier,
+          ArgumentList(Number)
+        )
+      )
+    )
+  )
+)
+
+
+# Void Function Definition
+
+void myFunc();
+
+==>
+
+Program(
+  FunctionDefinition(
+    PrimitiveType,
+    FunctionDeclarator(
+      Identifier,
+      ParameterList
+    )
+  )
+)
+
+
+# Qualifiers In ParameterList
+
+float myFunc(uniform const out int a, layout(A=2) int b);
+
+==> 
+
+Program(
+  FunctionDefinition(
+    PrimitiveType,
+    FunctionDeclarator(
+      Identifier,
+      ParameterList(
+        ParameterDeclaration(
+          uniform, const, out, PrimitiveType, Identifier
+        ),
+        ParameterDeclaration(
+          LayoutQualifier(layout, Identifier, Number), PrimitiveType Identifier
+        )
+      )
+    )
+  )
+)
