@@ -6,6 +6,6 @@ It was derived from [lezer-parser/cpp](https://github.com/lezer-parser/cpp) and 
 though I tried my best to remove them. It should also be mentioned that the parser is less restrictive than GLSL, in that it allows
 certain combinations of expressions in places it usually would not be allowed, in favor of describing those expressions correctly.
 
-This project is meant to be used together with [CodeMirror](https://codemirror.net/)
+This project is meant to be used together with [CodeMirror](https://codemirror.net/).
 
 The code is licensed under an MIT license.
