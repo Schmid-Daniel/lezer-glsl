@@ -1,6 +1,6 @@
 {
   "name": "lezer-glsl",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "lezer-based glsl grammar",
   "type": "module",
   "exports": {
