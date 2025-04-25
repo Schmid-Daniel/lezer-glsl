@@ -11,6 +11,7 @@ export const glslHighlighting = styleTags({
   FieldIdentifier: t.propertyName,
   "CallExpression/FieldExpression/FieldIdentifier": t.function(t.propertyName),
   Identifier: t.variableName,
+  IdentifierDefinition: t.definition(t.variableName),
   "CallExpression/Identifier": t.function(t.variableName),
   "FunctionDeclarator/Identifier": t.function(t.definition(t.variableName)),
   OperatorName: t.operator,

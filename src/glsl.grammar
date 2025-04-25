@@ -110,11 +110,11 @@ precisionQualifier {
    ParenthesizedDeclarator[@dynamicPrecedence=-10] {
      "(" declarator ")"
    } |
-   Identifier ~identifier
+   IdentifierDefinition ~identifier
  }
 
  FunctionDeclarator {
-   Identifier !params ParameterList !specifiers
+  IdentifierDefinition !params ParameterList !specifiers
  }
 
 InitDeclarator {
@@ -294,17 +294,21 @@ ParenthesizedExpression {
 // }
 
 
- TypeIdentifier {
-   identifier ~identifier
- }
+Identifier[@dynamicPrecedence=-1] {
+  identifier
+}
+
+ IdentifierDefinition {
+  identifier
+}
+
+TypeIdentifier {
+  identifier ~identifier
+}
 
 FieldIdentifier {
   identifier
 }
-
- Identifier[@dynamicPrecedence=-1] {
-   identifier
- }
 
 emptyDeclaration {
   typeSpecifier ";"

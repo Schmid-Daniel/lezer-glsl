@@ -18,7 +18,7 @@ Program(
       CaseStatement(
         case,
         Number,
-        Declaration(PrimitiveType, InitDeclarator( Identifier, Number)),
+        Declaration(PrimitiveType, InitDeclarator( IdentifierDefinition, Number)),
         BreakStatement(break)
       ),
       CaseStatement(
@@ -76,7 +76,7 @@ Program(
   FunctionDefinition(
     PrimitiveType,
     FunctionDeclarator(
-      Identifier,
+      IdentifierDefinition,
       ParameterList),
     CompoundStatement(
       IfStatement(
@@ -135,7 +135,7 @@ Program(
   WhileStatement(
     while,
     ConditionClause(
-      Declaration(PrimitiveType, InitDeclarator(Identifier, false)),
+      Declaration(PrimitiveType, InitDeclarator(IdentifierDefinition, false)),
       CommaExpression(
         AssignmentExpression(Identifier, Number),
         CommaExpression(
@@ -160,7 +160,7 @@ for(int a = 0, b = 2; a < 2, b < 3; a++, --b) {}
 Program(
   ForStatement(
     for,
-    Declaration(PrimitiveType, InitDeclarator(Identifier, Number), InitDeclarator(Identifier, Number)),
+    Declaration(PrimitiveType, InitDeclarator(IdentifierDefinition, Number), InitDeclarator(IdentifierDefinition, Number)),
     CommaExpression(
       BinaryExpression(Identifier, CompareOp, Number),
       BinaryExpression(Identifier, CompareOp, Number)

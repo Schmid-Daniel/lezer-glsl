@@ -11,13 +11,13 @@ Program(
   FunctionDefinition(
     PrimitiveType,
     FunctionDeclarator(
-      Identifier,
+      IdentifierDefinition,
       ParameterList(
         ParameterDeclaration(
-          PrimitiveType, Identifier
+          PrimitiveType, IdentifierDefinition
         ),
         ParameterDeclaration(
-          TypeIdentifier, Identifier
+          TypeIdentifier, IdentifierDefinition
         )
       ) 
     ),
@@ -48,7 +48,7 @@ Program(
       )
     ),
     FunctionDeclarator(
-      Identifier,
+      IdentifierDefinition,
       ParameterList(
         ParameterDeclaration(
           StructSpecifier(
@@ -57,7 +57,7 @@ Program(
               FieldDeclaration(PrimitiveType, Identifier)
             )
           ),
-          Identifier
+          IdentifierDefinition
         )
       )
     ),
@@ -84,7 +84,7 @@ Program(
   FunctionDefinition(
     PrimitiveType,
     FunctionDeclarator(
-      Identifier,
+      IdentifierDefinition,
       ParameterList
     )
   )
@@ -101,13 +101,13 @@ Program(
   FunctionDefinition(
     PrimitiveType,
     FunctionDeclarator(
-      Identifier,
+      IdentifierDefinition,
       ParameterList(
         ParameterDeclaration(
-          uniform, const, out, PrimitiveType, Identifier
+          uniform, const, out, PrimitiveType, IdentifierDefinition
         ),
         ParameterDeclaration(
-          LayoutQualifier(layout, Identifier, Number), PrimitiveType Identifier
+          LayoutQualifier(layout, Identifier, Number), PrimitiveType IdentifierDefinition
         )
       )
     )

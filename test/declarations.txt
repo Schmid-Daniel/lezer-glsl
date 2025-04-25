@@ -6,7 +6,7 @@ int a;
 
 Program(
   Declaration(
-    PrimitiveType, Identifier
+    PrimitiveType, IdentifierDefinition
   )
 )
 
@@ -29,7 +29,7 @@ int a, b;
 
 Program(
   Declaration(
-    PrimitiveType, Identifier, Identifier
+    PrimitiveType, IdentifierDefinition, IdentifierDefinition
   )
 )
 
@@ -44,7 +44,7 @@ Program(
   Declaration(
     PrimitiveType,
     InitDeclarator(
-      Identifier,
+      IdentifierDefinition,
       Number
     )
   )
@@ -61,11 +61,11 @@ Program(
   Declaration(
     PrimitiveType,
     InitDeclarator(
-      Identifier,
+      IdentifierDefinition,
       Number
     ),
     InitDeclarator(
-      Identifier,
+      IdentifierDefinition,
       Number
     )
   )
@@ -80,7 +80,7 @@ uniform in const vec2 a;
 
 Program(
   Declaration(
-    uniform, in, const, PrimitiveType, Identifier
+    uniform, in, const, PrimitiveType, IdentifierDefinition
   )
 )
 
@@ -95,7 +95,7 @@ Program(
   Declaration(
     PrimitiveType, 
     InitDeclarator(
-      Identifier, 
+      IdentifierDefinition, 
       CallExpression(
         PrimitiveType,
         ArgumentList(
@@ -117,7 +117,7 @@ Program(
   Declaration(
     TypeIdentifier, 
     InitDeclarator(
-      Identifier, 
+      IdentifierDefinition, 
       CallExpression(
         Identifier,
         ArgumentList(
@@ -143,7 +143,7 @@ Program(
   Declaration(
     PrimitiveType,
     InitDeclarator(
-      Identifier, Identifier
+      IdentifierDefinition, Identifier
     )
   )
 )
@@ -161,7 +161,7 @@ Program(
       PrimitiveType
     ),
     InitDeclarator(
-      Identifier,
+      IdentifierDefinition,
       CallExpression(
         ArraySpecifier(
           PrimitiveType
@@ -187,7 +187,7 @@ Program(
         ArraySpecifier(PrimitiveType)
       )
     ), 
-  Identifier
+  IdentifierDefinition
   )
 )
 
@@ -204,7 +204,7 @@ Program(
       TypeIdentifier
     ),
     InitDeclarator(
-      Identifier,
+      IdentifierDefinition,
       CallExpression(
         ArraySpecifier(
           TypeIdentifier
@@ -229,7 +229,7 @@ Program(
     PrimitiveType,
     InitDeclarator(
       ArrayDeclarator(
-        Identifier
+        IdentifierDefinition
       ),
       CallExpression(
         ArraySpecifier(
@@ -301,7 +301,7 @@ Program(
         )
       )
     ),
-    Identifier
+    IdentifierDefinition
   )
 )
 
