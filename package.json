@@ -1,6 +1,6 @@
 {
   "name": "lezer-glsl",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "lezer-based glsl grammar",
   "type": "module",
   "exports": {
@@ -24,8 +24,8 @@
     "url": "https://github.com/schmid-daniel/lezer-glsl"
   },
   "scripts": {
-    "build": "npm run prepare && rollup -c",
-    "prepare": "lezer-generator src/glsl.grammar -o src/parser",
+    "build": "lezer-generator src/glsl.grammar -o src/parser && rollup -c",
+    "prepare": "npm run build",
     "test": "mocha test.js"
   }
 }
