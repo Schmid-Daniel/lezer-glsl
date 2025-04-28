@@ -1,0 +1,39 @@
+# define
+
+#define v 1
+;
+
+
+==>
+
+Program(
+  PreprocDirective(Identifier, PreprocArg),
+  ExpressionStatement
+)
+
+# version
+
+#version 300 es
+;
+
+
+==>
+
+Program(
+  PreprocDirective(Number),
+  ExpressionStatement
+)
+
+
+# With Line Comment
+
+#define test 1 // comment
+;
+
+
+==>
+
+Program(
+  PreprocDirective(Identifier, PreprocArg),
+  ExpressionStatement
+)

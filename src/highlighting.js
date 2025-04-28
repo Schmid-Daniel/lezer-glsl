@@ -24,10 +24,9 @@ export const glslHighlighting = styleTags({
   LineComment: t.lineComment,
   BlockComment: t.blockComment,
   Number: t.number,
-  // PreProcArg: t.meta,
-  // "PreprocDirectiveName #include #ifdef #ifndef #if #define #else #endif #elif":
-  // t.processingInstruction,
-  // MacroName: t.special(t.name),
+  PreProcArg: t.meta,
+  "PreprocDirectiveName #ifdef #ifndef #if #define #else #endif #elif":
+    t.processingInstruction,
   "( )": t.paren,
   "[ ]": t.squareBracket,
   "{ }": t.brace,

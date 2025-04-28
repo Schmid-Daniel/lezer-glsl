@@ -34,32 +34,34 @@
 topLevelItem {
   FunctionDefinition |
   Declaration |
-  VersionDeclaration |
   // Import: shadertoys ...
   emptyDeclaration |
   statement 
 }
 
-// @skip { ppSpace } {
-//   ppEnd { BlockComment* LineComment? "\n" }
+@skip { ppSpace } {
+  ppEnd { BlockComment* LineComment? "\n" }
 
-//   PreprocDirective {
-//     pp<"include"> (String | SystemLibString | Identifier ArgumentList?) ppEnd |
-//     pp<"define"> Identifier preprocParams? PreprocArg? "\n" |
-//     pp<"if"> PreprocArg "\n" |
-//     (pp<"ifdef"> | pp<"ifndef">) Identifier ppEnd |
-//     pp<"else"> ppEnd |
-//     pp<"endif"> ppEnd |
-//     pp<"elif"> PreprocArg "\n" |
-//     PreprocDirectiveName PreprocArg "\n"
-//   }
-// }
+  PreprocDirective {
+    pp<"define"> Identifier preprocParams? PreprocArg? ppEnd |
+    pp<"undef"> Identifier ppEnd |
+    pp<"if"> PreprocArg ppEnd |
+    (pp<"ifdef"> | pp<"ifndef">) Identifier ppEnd |
+    pp<"else"> ppEnd |
+    pp<"elif"> PreprocArg ppEnd |
+    pp<"endif"> ppEnd |
 
-// preprocParams { "(" commaSep<Identifier | "..."> ")" }
+    pp<"error"> PreprocArg ppEnd |
+    pp<"pragma"> PreprocArg ppEnd |
+    
+    pp<"line"> PreprocArg ppEnd |
 
-VersionDeclaration {
-  "#version" Number "es"
+    pp<"version"> Number "es" ppEnd |
+    PreprocDirectiveName PreprocArg ppEnd
+  }
 }
+
+preprocParams { "(" commaSep<Identifier | "..."> ")" }
 
 FunctionDefinition {
   declarationSpecifiers FunctionDeclarator CompoundStatement |
@@ -289,11 +291,6 @@ ParenthesizedExpression {
   "(" (expression | CommaExpression) ")"
 }
 
-// @skip {} {
-//   Macro[@dynamicPrecedence=-10] { MacroName (whitespace? ArgumentList?) }
-// }
-
-
 Identifier[@dynamicPrecedence=-1] {
   identifier
 }
@@ -338,30 +335,28 @@ kw<term> { @specialize[@name={term}]<identifier, term> }
 
  commaSep1<term> { term ("," term)* }
 
-@skip { whitespace | LineComment | BlockComment }
-
-// @external tokens fallback from "./tokens" { templateArgsEndFallback[@name=">"], MacroName }
+@skip { whitespace | LineComment | BlockComment | PreprocDirective }
 
 @tokens {
   whitespace {
     ($[ \t\r\n] | "\\" "\r"? "\n")+
   }
 
-  // pp[@name="#" {name}]<name> { "#" $[ \t]* name }
+  pp[@name="#" {name}]<name> { "#" $[ \t]* name }
 
-  // PreprocDirectiveName {
-  //   "#" $[ \t]* $[a-zA-Z] $[a-zA-Z0-9_]*
-  // }
+  PreprocDirectiveName {
+    "#" $[ \t]* $[a-zA-Z] $[a-zA-Z0-9_]*
+  }
 
-  // @precedence { pp, PreprocDirectiveName }
+  @precedence { pp, PreprocDirectiveName }
 
-//   PreprocArg {
-//     (![\n] | "\\" "\r"? "\n")+
-//   }
+  PreprocArg {
+    (![\n])+
+  }
 
-  // ppSpace { $[ \t]+ }
+  ppSpace { $[ \t]+ }
 
-  // @precedence { "(", PreprocArg, ppSpace }
+  @precedence { "(", LineComment, BlockComment, PreprocArg, ppSpace }
 
   Number {
     ("0x" | "0b")?
