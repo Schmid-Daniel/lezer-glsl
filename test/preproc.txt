@@ -1,15 +1,39 @@
 # define
 
-#define v 1
+#define vsdfs sdf
 ;
-
 
 ==>
 
 Program(
-  PreprocDirective(Identifier, PreprocArg),
+  PreprocDirective(PreprocDirectiveName, PreprocArg),
   ExpressionStatement
 )
+
+
+# undef
+
+#undef var
+;
+
+==>
+
+Program(
+  PreprocDirective(PreprocDirectiveName, PreprocArg), ExpressionStatement
+)
+
+
+# if
+
+#if var == 2
+;
+
+==>
+
+Program(
+  PreprocDirective(PreprocDirectiveName, PreprocArg), ExpressionStatement
+)
+
 
 # version
 
@@ -20,20 +44,38 @@ Program(
 ==>
 
 Program(
-  PreprocDirective(Number),
+  PreprocDirective("#version", Number),
   ExpressionStatement
 )
 
 
 # With Line Comment
 
-#define test 1 // comment
-;
+#if test // comment
+float a = 2;
 
 
 ==>
 
 Program(
-  PreprocDirective(Identifier, PreprocArg),
+  PreprocDirective(PreprocDirectiveName, PreprocArg, LineComment),
+  Declaration(
+    PrimitiveType,
+    InitDeclarator(
+      IdentifierDefinition, Number
+    )
+  )
+)
+
+
+# include
+
+#include "http://my.url"
+;
+
+==> 
+
+Program(
+  PreprocDirective("#include", String),
   ExpressionStatement
 )

@@ -1,7 +1,7 @@
 import { styleTags, tags as t } from "@lezer/highlight";
 export const glslHighlighting = styleTags({
   struct: t.definitionKeyword,
-  "const uniform in out centroid layout smooth flat invariant highp mediump lowp":
+  "precision const uniform in out centroid layout smooth flat invariant highp mediump lowp":
     t.modifier,
   "if else switch for while do case default return break continue goto try catch":
     t.controlKeyword,
@@ -25,9 +25,9 @@ export const glslHighlighting = styleTags({
   BlockComment: t.blockComment,
   Number: t.number,
   PreProcArg: t.meta,
-  "PreprocDirectiveName #ifdef #ifndef #if #define #else #endif #elif":
-    t.processingInstruction,
-  "( )": t.paren,
+  String: t.string,
+  "PreprocDirectiveName #version #include": t.processingInstruction,
+  "( )": t.strong,
   "[ ]": t.squareBracket,
   "{ }": t.brace,
   "< >": t.angleBracket,

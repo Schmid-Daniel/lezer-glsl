@@ -36,32 +36,18 @@ topLevelItem {
   Declaration |
   // Import: shadertoys ...
   emptyDeclaration |
-  statement 
+  statement
 }
 
 @skip { ppSpace } {
   ppEnd { BlockComment* LineComment? "\n" }
 
   PreprocDirective {
-    pp<"define"> Identifier preprocParams? PreprocArg? ppEnd |
-    pp<"undef"> Identifier ppEnd |
-    pp<"if"> PreprocArg ppEnd |
-    (pp<"ifdef"> | pp<"ifndef">) Identifier ppEnd |
-    pp<"else"> ppEnd |
-    pp<"elif"> PreprocArg ppEnd |
-    pp<"endif"> ppEnd |
-
-    pp<"error"> PreprocArg ppEnd |
-    pp<"pragma"> PreprocArg ppEnd |
-    
-    pp<"line"> PreprocArg ppEnd |
-
     pp<"version"> Number "es" ppEnd |
+    pp<"include"> String? ppEnd |
     PreprocDirectiveName PreprocArg ppEnd
   }
 }
-
-preprocParams { "(" commaSep<Identifier | "..."> ")" }
 
 FunctionDefinition {
   declarationSpecifiers FunctionDeclarator CompoundStatement |
@@ -171,7 +157,12 @@ nonCaseStatement {
   ForStatement |
   ReturnStatement |
   BreakStatement |
-  ContinueStatement 
+  ContinueStatement |
+  PrecisionStatement
+}
+
+PrecisionStatement {
+  kw<"precision"> precisionQualifier primitiveType ";"
 }
 
 ExpressionStatement {
@@ -327,16 +318,25 @@ primitiveType {
     "isampler2D" | "isampler3D" | "isamplerCube" | "isampler2DArray" | "usampler2D" | 
     "usampler3D" | "usamplerCube" | "usampler2DArray"
     >
-}
+  }
 
-kw<term> { @specialize[@name={term}]<identifier, term> }
+  @skip {} {
+    String[isolate] {
+      '"' (stringContent | EscapeSequence)* '"' |
+      "'" (stringContent | EscapeSequence)* "'"
+    }
+  }
+  
+  kw<term> { @specialize[@name={term}]<identifier, term> }
+  
+  commaSep<term> { "" | term ("," term)* }
+  
+  commaSep1<term> { term ("," term)* }
+  
+  @skip { whitespace | LineComment | BlockComment | PreprocDirective }
 
- commaSep<term> { "" | term ("," term)* }
-
- commaSep1<term> { term ("," term)* }
-
-@skip { whitespace | LineComment | BlockComment | PreprocDirective }
-
+  @external tokens preprocArg from "./tokens.js" { PreprocArg }
+  
 @tokens {
   whitespace {
     ($[ \t\r\n] | "\\" "\r"? "\n")+
@@ -350,13 +350,21 @@ kw<term> { @specialize[@name={term}]<identifier, term> }
 
   @precedence { pp, PreprocDirectiveName }
 
-  PreprocArg {
-    (![\n])+
-  }
-
   ppSpace { $[ \t]+ }
 
-  @precedence { "(", LineComment, BlockComment, PreprocArg, ppSpace }
+  stringContent { ![\\\n'"]+ }
+
+  EscapeSequence {
+    "\\" (
+      ![xuU] |
+      $[0-9] $[0-9] $[0-9]? |
+      "x" $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F]* |
+      "u" $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F]  |
+      "U" $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F] $[0-9a-fA-F]
+    )
+  }
+
+  @precedence { "(", ppSpace }
 
   Number {
     ("0x" | "0b")?
